@@ -1,5 +1,6 @@
 import './transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,12 +31,45 @@ class MyHomePage extends StatelessWidget {
         child: Text("Hello"),
         elevation: 10,
       ),),
+      Card(
+        elevation: 10,
+        
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(decoration: InputDecoration(labelText: "Title"),),
+              TextField(decoration: InputDecoration(labelText: "Amount"),),
+              FlatButton(child: Text("Add Transaction"),
+              textColor: Colors.lightBlue,
+              onPressed: (){},),
+            ],
+          ),
+        )
+      ),
       Column(children: transaction.map((t) {
         return Card(child:Row(children: <Widget>[
-          Container(child: Text(t.amount.toString(),),),
-          Column(children: <Widget>[
-            Text(t.title),
-            Text(t.date.toString())
+          Container(
+            margin: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
+            decoration: BoxDecoration(border: Border.all(color: Colors.lightBlue,width: 3,),
+            ),
+            padding: EdgeInsets.all(10),
+            child: Text('₹'+ t.amount.toString(),
+            style: TextStyle(fontWeight: FontWeight.bold,
+            fontSize: 20),
+
+            ),),
+          Column(
+            // crossAxisAlignment: CrossAxisAlignment.start, (for make the alignment to the left)
+            children: <Widget>[
+            Text(t.title,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+            Text(DateFormat().format(t.date),
+            )
+            // Text(t.date.toString())
 
           ],)
         ],),);

@@ -4,7 +4,8 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transactions>transactions;
-  TransactionList(this.transactions);
+  final Function deleteTx;
+  TransactionList(this.transactions,this.deleteTx);
 
 
 
@@ -12,7 +13,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return     
     Container(
-      height: 300,
+      height: 450,
       child:transactions.isEmpty? Column(children: <Widget>[
         Text('No Transactions yet !', style:Theme.of(context).textTheme.title,
         ),
@@ -23,30 +24,23 @@ class TransactionList extends StatelessWidget {
       ],):
        ListView.builder(
         itemBuilder: (ctx,index){
-           return Card(child:Row(children: <Widget>[
-            Container(
-              margin: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
+           return Card(
+             elevation: 5,
+             margin: EdgeInsets.symmetric(vertical: 8,horizontal: 6),
+                        child: ListTile(
+               leading: CircleAvatar(radius: 28,
+               child:Padding(
+                 padding: EdgeInsets.all(7),
+                 child: FittedBox(child: Text('₹'+transactions[index].amount.toStringAsFixed(2),)),
+               ),
+             ),
+             title: Text(transactions[index].title,style:Theme.of(context).textTheme.title,),
+             subtitle: Text(DateFormat.yMMMd().format(transactions[index].date),
               ),
-              decoration: BoxDecoration(border: Border.all(color: Colors.lightBlue,width: 3,),
-              ),
-              padding: EdgeInsets.all(10),
-              child: Text('₹'+ transactions[index].amount.toStringAsFixed(2),
-              style: TextStyle(fontWeight: FontWeight.bold,
-              fontSize: 20),
-
-              ),),
-            Column(
-              // crossAxisAlignment: CrossAxisAlignment.start, (for make the alignment to the left)
-              children: <Widget>[
-              Text(transactions[index].title,style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
-              Text(DateFormat().format(transactions[index].date),
-              )
-              // Text(t.date.toString())
-
-            ],)
-          ],),);
+              trailing: IconButton(icon: Icon(Icons.delete),color: Theme.of(context).errorColor,
+              onPressed:()=> deleteTx(transactions[index].id),),
+             ),
+           );
         },
         itemCount: transactions.length,
         
@@ -56,3 +50,7 @@ class TransactionList extends StatelessWidget {
       
   }
 }
+
+
+
+

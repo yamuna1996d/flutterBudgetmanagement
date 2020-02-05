@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return     
     Container(
-      height: 450,
+      // height: MediaQuery.of(context).size.height * 0.7,
       child:transactions.isEmpty? Column(children: <Widget>[
         Text('No Transactions yet !', style:Theme.of(context).textTheme.title,
         ),
